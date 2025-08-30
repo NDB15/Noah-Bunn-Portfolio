@@ -343,8 +343,27 @@
             height: 250px;
         }
     }
+
+    /* Pulsing animation for music prompt */
+    @keyframes pulse {
+        0% {
+            opacity: 0.6;
+            transform: scale(1);
+        }
+        50% {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+        100% {
+            opacity: 0.6;
+            transform: scale(1);
+        }
+    }
 </style>
 <body>
+    <!-- Music prompt -->
+    <div id="music-prompt" style="position: fixed; top: 20px; right: 20px; color: red; font-size: 14px; z-index: 2000; font-family: Arial, sans-serif; cursor: pointer; user-select: none; animation: pulse 2s ease-in-out infinite;">psst... click the screen</div>
+    
     <!-- Mirrored video background -->
     <div class="video-background">
         <video autoplay muted loop class="video-left">
@@ -451,6 +470,23 @@
                     updateVolumeIcon(sharedMusicPlayer.getVolume());
                 }
             }, 100);
+            
+            // Music prompt click handler
+            const musicPrompt = document.getElementById('music-prompt');
+            if (musicPrompt) {
+                musicPrompt.addEventListener('click', function() {
+                    musicPrompt.style.display = 'none';
+                    if (window.globalAudio) {
+                        window.globalAudio.play().catch(() => {});
+                    }
+                });
+                
+                document.addEventListener('click', function() {
+                    if (musicPrompt) {
+                        musicPrompt.style.display = 'none';
+                    }
+                }, { once: true });
+            }
         });
     </script>
 </body>
