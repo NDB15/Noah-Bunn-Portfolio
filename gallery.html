@@ -551,6 +551,27 @@
         
         // Initialize volume icon
         document.addEventListener('DOMContentLoaded', function() {
+            // Back button hover sound effect (desktop only)
+            const isMobile = window.innerWidth <= 768;
+            if (!isMobile) {
+                const rewindSound = new Audio('sounds/DJRewind.ogg');
+                rewindSound.volume = 0.2; // Set to 20% volume to not be too loud
+                rewindSound.preload = 'auto';
+                
+                // Add hover sound to back button
+                const backButton = document.querySelector('.back-button');
+                if (backButton) {
+                    backButton.addEventListener('mouseenter', function() {
+                        // Reset sound to beginning and play
+                        rewindSound.currentTime = 0;
+                        rewindSound.play().catch(error => {
+                            // Handle autoplay restrictions gracefully
+                            console.log('Audio play prevented:', error);
+                        });
+                    });
+                }
+            }
+            
             setTimeout(() => {
                 if (sharedMusicPlayer) {
                     updateVolumeIcon(sharedMusicPlayer.getVolume());
