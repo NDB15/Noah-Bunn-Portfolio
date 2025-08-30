@@ -553,18 +553,7 @@
     </div>
 
     <!-- Shared music system -->
-    <script>
-        // Check if device is mobile (screen width <= 768px) and disable music
-        const isMobile = window.innerWidth <= 768;
-        if (!isMobile) {
-            // Only load music system on non-mobile devices
-            const script = document.createElement('script');
-            script.src = 'js/shared-music.js';
-            document.head.appendChild(script);
-        } else {
-            console.log('Mobile device detected - music functionality disabled');
-        }
-    </script>
+    <script src="js/shared-music.js"></script>
     <script>
         // Function to update volume icon based on volume level
         function updateVolumeIcon(volume) {
