@@ -570,6 +570,67 @@
                         });
                     });
                 }
+                
+                // Button click sound effects (desktop only)
+                // Combo sounds for button clicks
+                const comboSounds = [
+                    'sounds/combo1-CAB-519ac1be399ab2f6a6ea4b8fadf2e2d3--5268431922363868701.ogg',
+                    'sounds/combo6-CAB-519ac1be399ab2f6a6ea4b8fadf2e2d3-1388961135375439648.ogg',
+                    'sounds/combo7-CAB-519ac1be399ab2f6a6ea4b8fadf2e2d3--8362857525775888312.ogg',
+                    'sounds/combo11-CAB-519ac1be399ab2f6a6ea4b8fadf2e2d3--3763815408416287802.ogg',
+                    'sounds/combo12-CAB-519ac1be399ab2f6a6ea4b8fadf2e2d3-2623777169191283852.ogg'
+                ];
+                
+                // Preload all combo sounds
+                const comboAudioObjects = comboSounds.map(soundPath => {
+                    const audio = new Audio(soundPath);
+                    audio.volume = 0.2; // Set to 20% volume
+                    audio.preload = 'auto';
+                    return audio;
+                });
+                
+                // Function to play random combo sound
+                function playRandomComboSound() {
+                    const randomIndex = Math.floor(Math.random() * comboAudioObjects.length);
+                    const soundToPlay = comboAudioObjects[randomIndex];
+                    soundToPlay.currentTime = 0;
+                    soundToPlay.play().catch(error => {
+                        console.log('Combo click audio play prevented:', error);
+                    });
+                }
+                
+                // Add click sound to all clickable elements with navigation delay
+                const clickableElements = document.querySelectorAll(
+                    '.back-button, .music-button'
+                );
+                
+                clickableElements.forEach(element => {
+                    element.addEventListener('click', function(event) {
+                        // Play the combo sound
+                        playRandomComboSound();
+                        
+                        // Check if this is an internal navigation link
+                        const href = element.getAttribute('href');
+                        const isInternalLink = href && (
+                            href.includes('.html') || 
+                            href === 'index.html' || 
+                            href === 'projects.html' || 
+                            href === 'gallery.html' || 
+                            href === 'introduction.html'
+                        );
+                        
+                        if (isInternalLink) {
+                            // Prevent immediate navigation
+                            event.preventDefault();
+                            
+                            // Delay navigation to allow combo sound to play
+                            setTimeout(() => {
+                                window.location.href = href;
+                            }, 400); // 400ms delay to let combo sound play
+                        }
+                        // Music controls and other buttons proceed normally
+                    });
+                });
             }
             
             setTimeout(() => {
