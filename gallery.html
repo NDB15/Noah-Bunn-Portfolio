@@ -276,6 +276,73 @@
     .volume-control:hover {
         background: rgba(139, 115, 85, 0.15);
     }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .content-area {
+            padding: 40px 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .back-button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin-bottom: 30px;
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .gallery-item img {
+            height: 200px;
+        }
+
+        .volume-control {
+            bottom: 15px;
+            right: 15px;
+            padding: 8px;
+        }
+
+        .music-button {
+            width: 16px;
+            height: 16px;
+        }
+
+        .volume-slider {
+            width: 60px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .content-area {
+            padding: 30px 15px;
+        }
+
+        h1 {
+            font-size: 28px;
+        }
+
+        .back-button {
+            font-size: 14px;
+            padding: 8px 16px;
+        }
+
+        .gallery-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .gallery-item img {
+            height: 250px;
+        }
+    }
 </style>
 <body>
     <!-- Mirrored video background -->

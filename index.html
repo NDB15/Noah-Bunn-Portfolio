@@ -635,6 +635,185 @@
     .volume-control:hover {
         background: rgba(139, 115, 85, 0.15);
     }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .container {
+            width: 95vw;
+            border-left: 2px solid #8B7355;
+            border-right: 2px solid #8B7355;
+        }
+
+        .content-area {
+            padding: 40px 20px;
+        }
+
+        .main-content {
+            flex-direction: column;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .text-content {
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .text-content h1 {
+            font-size: 36px;
+            min-height: 44px;
+        }
+
+        .text-content h2 {
+            font-size: 20px;
+        }
+
+        .text-content p {
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+
+        .image-content {
+            flex: none;
+            height: 400px;
+        }
+
+        .profile-image {
+            height: 300px;
+        }
+
+        .photo-collage {
+            top: -120px;
+            left: -30px;
+            width: 360px;
+            height: 200px;
+        }
+
+        .collage-photo {
+            width: 50px;
+            height: 50px;
+        }
+
+        .nav-icons {
+            flex-direction: column;
+            gap: 15px;
+            padding: 15px 20px;
+            margin-top: -80px;
+        }
+
+        .nav-gifs-left, .nav-gifs-right {
+            gap: 15px;
+            padding: 0;
+        }
+
+        .nav-gif {
+            width: 45px;
+            height: 45px;
+        }
+
+        .social-icons-center {
+            gap: 15px;
+            order: -1;
+        }
+
+        .social-icons-center img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .menu-buttons {
+            margin-right: 0;
+            padding: 15px 20px;
+            padding-right: 20px;
+        }
+
+        .menu-button {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .font-toggle-text {
+            font-size: 12px;
+            top: -20px;
+        }
+
+        .volume-control {
+            bottom: 15px;
+            right: 15px;
+            padding: 8px;
+        }
+
+        .music-button {
+            width: 16px;
+            height: 16px;
+        }
+
+        .volume-slider {
+            width: 60px;
+        }
+
+        .logo-link {
+            left: 15px;
+            top: 15px;
+        }
+
+        .logo-link img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .egg-link {
+            bottom: 15px;
+            right: 15px;
+        }
+
+        .egg-link img {
+            width: 16px;
+            height: 16px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .text-content h1 {
+            font-size: 28px;
+            min-height: 36px;
+        }
+
+        .text-content h2 {
+            font-size: 18px;
+        }
+
+        .text-content p {
+            font-size: 14px;
+        }
+
+        .menu-button {
+            font-size: 20px;
+        }
+
+        .image-content {
+            height: 350px;
+        }
+
+        .profile-image {
+            height: 250px;
+        }
+
+        .photo-collage {
+            width: 320px;
+            height: 180px;
+        }
+
+        .collage-photo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .nav-gif {
+            width: 35px;
+            height: 35px;
+        }
+    }
 </style>
 <body>
     
