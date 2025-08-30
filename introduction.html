@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Noah</title>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<style>
+    body {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        font-family: "Crimson Text", serif;
+        color: rgba(255, 255, 255, 0.87);
+
+        background-image: url("img/greyBackground.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.1);
+        z-index: -2;
+    }
+
+    table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        border-color: white;
+        width: 80%;
+    }
+
+        a {
+        color: white;
+        text-decoration: underline;
+    }
+
+    a:hover {
+        color: rgb(243, 234, 234);
+    }
+
+    a:visited {
+        color: white;
+    }
+
+    ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0 auto;
+        display: inline-block;
+    }
+
+    li {
+        margin: 10px 0;
+    }
+
+    .logo-link {
+        position:fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        text-decoration: none;
+    }
+
+    .logo-link img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+    .logo-link img:hover {
+        transform: scale(1.1);
+    }        
+
+    .egg-link {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        text-decoration: none;
+    }
+
+    .egg-link img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+    .egg-link img:hover {
+        transform: scale(1.1);
+    }
+  
+</style>
+<body>
+    <!-- Logo will go in top left corner-->
+     <a href="index.html" class="logo-link">
+        <img src="img/labubu.png" alt="Home">
+     </a>   
+     
+     <a href="https://youtu.be/uvOAZbawDeA?si=7LukSb6MstwQD9PQ" class="egg-link">
+        <img src="img/cuteLabubu.png" alt="Easter Egg">
+     </a>         
+    <h1>About Me</h1>
+    
+    <h2>My Skills</h2>
+    <table border="1">
+        <tr>
+            <th>Skill</th>
+            <th>Level</th>
+            <th>Experience</th>
+        </tr>
+        <tr>
+            <td>Java</td>
+            <td>Intermediate</td>
+            <td>2+ years</td>
+        </tr>
+        <tr>
+            <td>React</td>
+            <td>Beginner</td>
+            <td>1- years</td>
+        </tr>
+        <tr>
+            <td>Python</td>
+            <td>Intermediate</td>
+            <td>3+ years</td>
+        </tr>
+        <tr>
+            <td>HTML/CSS</td>
+            <td>Intermediate</td>
+            <td>1 year</td>
+        </tr>
+        <tr>
+            <td>C++</td>
+            <td>Intermediate</td>
+            <td>1 year</td>
+        </tr>
+        <tr>
+            <td>C#</td>
+            <td>Intermediate</td>
+            <td>2 years</td>
+        </tr>
+    </table>
+    
+    <h2>Coding Projects</h2>
+    <img src="img/coding.jpg" alt="Coding workspace" width="300">
+    <p>I enjoy working on various coding projects including web applications, mobile apps, and data science projects.</p>
+    
+    <h2>Personal Projects</h2>
+    <img src="img/projects.jpg" alt="Project showcase" width="300">
+    <p>This is one of the projects I've worked on recently:
+        I am building an app that will allow users to see what music others in their area are listening to.
+         Users can connect accounts from Apple Music, Spotify, SoundCloud, or Musi to share their listening history.
+          You can view your own listening data, but you can also automatically exchange profiles with nearby users. 
+          When someone with the app is within ~8 meters, their avatar appears on your screen, and you can view their profile and activity. 
+          A discovery screen shows all nearby users’ profiles in real time, and even if the app is closed, a history list logs everyone you’ve passed.
+
+    </p>
+    <h2>Links</h2>
+    <ul>
+        <li><a href="http://github.com/NDB15">My GitHub Profile</a></li>
+        <li><a href="https://www.linkedin.com/in/noahbunn/">My LinkedIn Profile</a></li>
+        <li><a href="https://www.noahbunn.net/">My Portfolio Page</a></li>
+    </ul>
+
+    <p><a href="index.html">Back to Home</a></p>
+</body>
+</html>

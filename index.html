@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.    .logo-link {
+        position:fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        text-decoration: none;
+    }'s Person    /* Social media icons at top with gifs */
+    .nav-icons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 40px;
+        align-items: center;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        background: rgba(230, 220, 200, 0.85);
+        border-radius: 25px;
+        padding: 20px 25px;
+        margin-top: -100px;
+    padding-top: 40px;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        overflow: hidden;
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+        contain: layout style;
+    }<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Induction';
+            src: url('font/induction/Induction.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</head>
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        background: #333;  /* Fallback dark background if video fails */
+        width: 100%;
+        height: 100%;
+    }
+
+    html, body {
+        margin: 0;
+        padding: 0;
+        width: 100vw;
+        height: 100vh;
+        background: transparent;
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    body {
+        font-family: 'Induction', "Crimson Text", serif;
+        color: #5a5a5a;
+        line-height: 1.6;
+        position: relative;
+        overflow-x: hidden;
+        max-width: 100vw;
+    }
+
+    /* Container for content - full height */
+    .container {
+        position: fixed;
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60vw;  /* Wider middle section */
+        height: 100vh;
+        z-index: 1;
+        overflow-y: auto;
+        border-left: 3px solid #8B7355;
+        border-right: 3px solid #8B7355;
+        will-change: transform;
+        contain: layout style paint;
+    }
+
+    /* Video background - mirrored sides */
+    .video-background {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -3;
+        display: flex;
+    }
+
+    .video-left {
+        width: 20vw;  /* Narrower left section */
+        height: 100vh;
+        object-fit: cover;
+        display: block;
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    .video-right {
+        width: 20vw;  /* Narrower right section */
+        height: 100vh;
+        object-fit: cover;
+        display: block;
+        transform: scaleX(-1);
+        margin-left: 60vw;  /* Push to the right side */
+        will-change: transform;
+        backface-visibility: hidden;
+    }
+
+    /* Single column content area - full height */
+    .content-area {
+        background-image: url("img/cream-background.png");
+        background-size: cover;
+        background-position: center;
+        padding: 60px 40px;
+        min-height: 100vh;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Main content layout - side by side */
+    .main-content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        max-width: 1000px;
+        margin-bottom: 60px;
+        gap: 60px;
+    }
+
+    /* Left side - text content */
+    .text-content {
+        flex: 1;
+        text-align: left;
+        position: relative;
+        padding-top: 70px;
+    }
+
+    .text-content h1 {
+        font-size: 48px;
+        color: #8B7355;
+        margin: 0;
+        font-weight: 600;
+        line-height: 1.2;
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        border-right: 3px solid #8B7355;
+        min-height: 58px;
+        z-index: 1;
+        pointer-events: none;
+        will-change: contents;
+        transform: translateZ(0);
+    }
+
+    .text-content h1.typing {
+        animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+        0%, 50% { border-color: #8B7355; }
+        51%, 100% { border-color: transparent; }
+    }
+
+    .text-content h2 {
+        font-size: 24px;
+        color: #8B7355;
+        margin: 0 0 20px 0;
+        font-weight: normal;
+        opacity: 0.8;
+    }
+
+    .text-content p {
+        font-size: 16px;
+        margin-bottom: 20px;
+        color: #666;
+        line-height: 1.6;
+    }
+
+    /* Right side - profile image */
+    .image-content {
+        flex: 0 0 300px;
+        position: relative;
+        height: 500px;
+    }
+
+    /* Photo collage above main image */
+    .photo-collage {
+        position: absolute;
+        top: -150px;
+        left: -50px;
+        width: 400px;
+        height: 250px;
+        pointer-events: none;
+    }
+
+    .collage-photo {
+        position: absolute;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(139, 115, 85, 0.3);
+        transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), z-index 0.1s ease;
+        pointer-events: auto;
+        cursor: pointer;
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .collage-photo:hover {
+        transform: scale(3.0);
+        z-index: 10;
+        box-shadow: 0 12px 32px rgba(139, 115, 85, 0.6);
+    }
+
+    /* Individual photo positioning */
+    .photo-cg {
+        width: 80px;
+        height: 60px;
+        top: 20px;
+        left: 30px;
+        transform: rotate(-8deg);
+    }
+
+    .photo-bass {
+        width: 70px;
+        height: 90px;
+        top: 0px;
+        left: 120px;
+        transform: rotate(12deg);
+    }
+
+    .photo-muaythai {
+        width: 75px;
+        height: 75px;
+        top: 45px;
+        left: 200px;
+        transform: rotate(-5deg);
+    }
+
+    .photo-piano {
+        width: 85px;
+        height: 65px;
+        top: 15px;
+        left: 290px;
+        transform: rotate(10deg);
+    }
+
+    .photo-trombone {
+        width: 90px;
+        height: 70px;
+        top: 80px;
+        left: 50px;
+        transform: rotate(15deg);
+    }
+
+    .photo-winton {
+        width: 80px;
+        height: 80px;
+        top: 70px;
+        left: 150px;
+        transform: rotate(-12deg);
+    }
+
+    .photo-cisco {
+        width: 75px;
+        height: 55px;
+        top: 95px;
+        left: 250px;
+        transform: rotate(8deg);
+    }
+
+    .profile-image {
+        width: 100%;
+        height: 400px;
+        border-radius: 12px;
+        object-fit: cover;
+        box-shadow: 0 8px 24px rgba(139, 115, 85, 0.3);
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+        cursor: pointer;
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .profile-image:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 32px rgba(139, 115, 85, 0.4);
+    }
+
+    /* Social media icons at top with gifs */
+    .nav-icons {
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        margin-bottom: 40px;
+        align-items: center;
+        width: 100%;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+        position: relative;
+        background: rgba(163, 152, 129, 0.85);
+        border-radius: 25px;
+        padding: 20px 25px;
+        margin-top: -100px;
+        padding-top: 120px;
+        transition: all 0.3s ease;
+        overflow: visible;
+    }
+
+    .nav-icons:hover {
+        transform: scale(1.02);
+        background: rgba(220, 210, 185, 0.9);
+    }
+
+    .nav-gifs-left {
+        display: flex;
+        gap: 25px;
+        flex: 1;
+        justify-content: flex-end;
+        padding-right: 60px;
+    }
+
+    .nav-container {
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    .font-toggle-text {
+        color: red;
+        font-size: 14px;
+        cursor: pointer;
+        user-select: none;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+        position: absolute;
+        top: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1500;
+        background: #ffff6600;
+        padding: 2px 8px;
+        border-radius: 4px;
+    }    .font-toggle-text:hover {
+        opacity: 0.7;
+    }
+
+    .nav-gifs-right {
+        display: flex;
+        gap: 25px;
+        flex: 1;
+        justify-content: flex-start;
+        padding-left: 60px;
+    }
+
+    .nav-gif {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .nav-gif:hover {
+        transform: scale(1.1);
+    }
+
+    .social-icons-center {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .social-icons-center a {
+        color: #8B7355;
+        text-decoration: none;
+        font-size: 16px;
+        transition: opacity 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .social-icons-center a:hover {
+        opacity: 0.7;
+    }
+
+    .social-icons-center img {
+        width: 24px;
+        height: 24px;
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .social-icons-center img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Game-style menu text links - positioned in left content */
+    .menu-buttons {
+        margin-top: 30px;
+        position: relative;
+        background: rgba(245, 240, 230, 0.8);
+        border-radius: 25px;
+        padding: 20px 25px;
+        margin-right: -500px;
+        padding-right: 170px;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        overflow: hidden;
+        will-change: transform;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .menu-buttons:hover {
+        transform: scale(1.02);
+        background: rgba(245, 240, 230, 0.9);
+    }
+
+    .menu-button {
+        font-family: 'Induction', "Crimson Text", serif;
+        font-size: 32px;
+        color: #FF8C00;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        position: relative;
+        display: block;
+        text-align: left;
+        margin-bottom: 15px;
+        padding: 8px 0;
+        background: transparent;
+        border-radius: 0;
+        margin-right: 0;
+        padding-right: 0;
+        box-shadow: none;
+        will-change: transform, color;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .menu-button:last-child {
+        margin-bottom: 0;
+    }
+
+    .menu-button:hover {
+        color: #FF7700;
+        transform: translateX(5px);
+        text-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
+    }
+
+    .menu-button:visited {
+        color: #FF8C00;
+    }
+
+    .menu-button:active {
+        transform: translateX(3px);
+    }
+
+
+
+    .border-video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -3;
+    }
+
+    table {
+        margin: 0 auto;
+        border-collapse: collapse;
+        width: 80%;
+    }
+
+    a {
+        color: #8B7355;
+        text-decoration: none;
+    }
+
+    a:hover {
+        opacity: 0.7;
+    }
+
+    a:visited {
+        color: #8B7355;
+    }
+
+    ul {
+       list-style-type: none; 
+       padding: 0;
+       margin: 0 auto;
+       display: inline-block;
+    }
+
+    .logo-link {
+        position:fixed;
+        top: 20px;
+        left: 180px;
+        z-index: 1000;
+        text-decoration: none;
+    }
+
+    .logo-link img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+    .logo-link img:hover {
+        transform: scale(1.1);
+    }
+
+    .egg-link {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        text-decoration: none;
+    }
+
+    .egg-link img {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: none;
+        transition: transform 0.3s ease;
+    }
+
+    .egg-link img:hover {
+        transform: scale(1.1);
+    }
+
+    /* Volume control styling */
+    .volume-control {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(139, 115, 85, 0.1);
+        padding: 8px 15px;
+        border-radius: 25px;
+        border: 2px solid #8B7355;
+        backdrop-filter: blur(5px);
+    }
+
+    .music-button {
+        width: 18px;
+        height: 18px;
+        fill: #8B7355;
+        cursor: pointer;
+        transition: transform 0.2s ease, fill 0.2s ease;
+        padding: 2px;
+    }
+
+    .music-button:hover {
+        transform: scale(1.1);
+        fill: #6B5845;
+    }
+
+    .volume-icon {
+        width: 20px;
+        height: 20px;
+        fill: #8B7355;
+        cursor: pointer;
+        transition: transform 0.2s ease, fill 0.2s ease;
+    }
+
+    .volume-icon:hover {
+        transform: scale(1.1);
+        fill: #6B5845;
+    }
+
+    .volume-slider {
+        width: 80px;
+        height: 4px;
+        background: rgba(139, 115, 85, 0.3);
+        border-radius: 2px;
+        outline: none;
+        cursor: pointer;
+        -webkit-appearance: none;
+        appearance: none;
+    }
+
+    .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #8B7355;
+        cursor: pointer;
+        border: none;
+    }
+
+    .volume-slider::-moz-range-thumb {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: #8B7355;
+        cursor: pointer;
+        border: none;
+    }
+
+    .volume-control:hover {
+        background: rgba(139, 115, 85, 0.15);
+    }
+</style>
+<body>
+    
+    <!-- Mirrored video background -->
+    <div class="video-background">
+        <video autoplay muted loop class="video-left">
+            <source src="img/BRBackground.webm" type="video/webm">
+        </video>
+        <video autoplay muted loop class="video-right">
+            <source src="img/BRBackground.webm" type="video/webm">
+        </video>
+    </div>
+
+    <!-- Volume control -->
+    <div class="volume-control">
+        <!-- Rewind button -->
+        <svg class="music-button" id="rewindButton" viewBox="0 0 24 24" title="Restart song">
+            <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
+        </svg>
+        
+        <!-- Skip button -->
+        <svg class="music-button" id="skipButton" viewBox="0 0 24 24" title="Next song">
+            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+        </svg>
+        
+        <!-- Volume icon -->
+        <svg class="volume-icon" viewBox="0 0 24 24" title="Toggle mute">
+            <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
+        </svg>
+        
+        <!-- Volume slider -->
+        <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="30">
+    </div>
+    
+    <!-- Random background music (hidden) -->
+    <audio id="backgroundMusic" style="display: none;">
+        <!-- Source will be set by JavaScript -->
+    </audio>
+    
+    <!-- Content Container -->
+    <div class="container">
+        <!-- Single column content area -->
+        <div class="content-area">
+            <!-- Social media icons at top with gifs -->
+            <div class="nav-container">
+                <!-- Font toggle text positioned above the navigation box -->
+                <span id="font-toggle" class="font-toggle-text">having trouble reading?</span>
+                
+                <!-- Navigation box -->
+                <nav class="nav-icons">
+                    <!-- Left side gifs -->
+                    <div class="nav-gifs-left">
+                        <img src="models/8ballDance-unscreen.gif" alt="8ball Dance" class="nav-gif">
+                        <img src="models/CatDance-unscreen.gif" alt="Cat Dance" class="nav-gif">
+                    </div>
+                
+                <!-- Center social icons -->
+                <div class="social-icons-center">
+                    <a href="https://github.com/NDB15" target="_blank">
+                        <img src="logos/Github-Logo-PNG.webp" alt="GitHub">
+                    </a>
+                    <a href="https://linkedin.com/in/noah-bunn" target="_blank">
+                        <img src="logos/LinkedIn-logo.webp" alt="LinkedIn">
+                    </a>
+                    <a href="mailto:noahdbunn@gmail.com">
+                        <img src="logos/gmail-logo.webp" alt="Email">
+                    </a>
+                    <a href="https://docs.google.com/document/d/e/2PACX-1vQunTZddT4HU_-uWdqkWLKPWHhSw6K9ip5TrspvJMGz9bllE21tpf4IYKK0oiwm-GUtHajxETQ4WGkk/pub" target="_blank">📄</a>
+                </div>
+                
+                <!-- Right side gifs -->
+                <div class="nav-gifs-right">
+                    <img src="models/RedDance-unscreen.gif" alt="Red Dance" class="nav-gif">
+                    <img src="models/Solace-unscreen.gif" alt="Solace" class="nav-gif">
+                </div>
+            </nav>
+        </div>
+            
+            <!-- Main content layout -->
+            <div class="main-content">
+                <!-- Left side - text content -->
+                <div class="text-content">
+                    <h1 id="typewriter-name">Noah Bunn...</h1>
+                    <h2>Computer Science Student</h2>
+                    <p>Welcome to my personal passion project portfolio! I'm a Computer Science senior at North Carolina A&T State University, passionate about creating innovative software solutions that combine bold functionality with intuitive design.</p>
+                    <p>My experience spans web development, hackathon competitions,a SWE internship at Cisco Security, and music performance - bringing a unique blend of technical expertise and creative problem-solving to every project.</p>
+                    
+                    <!-- Game-style menu text links in left content -->
+                    <div class="menu-buttons">
+                        <a href="projects.html" class="menu-button">Projects</a>
+                        <a href="gallery.html" class="menu-button">Gallery</a>
+                        <a href="https://music.apple.com/us/playlist/cyberfunk/pl.u-PDb4YWpIe2kj9o" target="_blank" class="menu-button">Playlist</a>
+                    </div>
+                </div>
+                
+                <!-- Right side - profile image -->
+                <div class="image-content">
+                    <!-- Photo collage above main image -->
+                    <div class="photo-collage">
+                        <img src="img/CG.jpg" alt="Computer Graphics" class="collage-photo photo-cg">
+                        <img src="img/Bass.jpg" alt="Bass Performance" class="collage-photo photo-bass">
+                        <img src="img/MuayThai.JPG" alt="Muay Thai" class="collage-photo photo-muaythai">
+                        <img src="img/pianoTune.JPG" alt="Piano Performance" class="collage-photo photo-piano">
+                        <img src="img/Trombone.jpg" alt="Trombone Performance" class="collage-photo photo-trombone">
+                        <img src="img/Winton.jpg" alt="Winton Performance" class="collage-photo photo-winton">
+                        <img src="img/Cisco.jpg" alt="Cisco Certification" class="collage-photo photo-cisco">
+                    </div>
+                    <img src="img/Sip.jpg" alt="Noah Bunn" class="profile-image">
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Random background music functionality - Auto-play
+        document.addEventListener('DOMContentLoaded', function() {
+            // Font toggle functionality
+            const fontToggle = document.getElementById('font-toggle');
+            let isArial = false;
+            
+            fontToggle.addEventListener('click', function() {
+                if (!isArial) {
+                    // Switch to Arial and change text
+                    document.body.style.fontFamily = 'Arial, sans-serif';
+                    fontToggle.textContent = 'go back';
+                    isArial = true;
+                } else {
+                    // Switch back to Induction and change text
+                    document.body.style.fontFamily = "'Induction', 'Crimson Text', serif";
+                    fontToggle.textContent = 'having trouble reading?';
+                    isArial = false;
+                }
+            });
+            
+            // Performance optimization: Use requestAnimationFrame for smoother animations
+            let animationId = null;
+            
+            // Typewriter effect for name
+            const nameElement = document.getElementById('typewriter-name');
+            const fullName = 'Noah Bunn...';
+            let currentText = '';
+            let letterIndex = 0;
+            let isDeleting = false;
+            let lastUpdateTime = 0;
+            
+            function typeWriter(timestamp = 0) {
+                const typeSpeed = 100;
+                const deleteSpeed = 50;
+                const currentSpeed = isDeleting ? deleteSpeed : typeSpeed;
+                
+                if (timestamp - lastUpdateTime >= currentSpeed) {
+                    if (!isDeleting && letterIndex <= fullName.length) {
+                        // Typing
+                        currentText = fullName.substring(0, letterIndex);
+                        nameElement.textContent = currentText;
+                        nameElement.classList.add('typing');
+                        letterIndex++;
+                        
+                        if (letterIndex > fullName.length) {
+                            // Finished typing, wait 2 seconds then start deleting
+                            setTimeout(() => {
+                                isDeleting = true;
+                                lastUpdateTime = 0;
+                                animationId = requestAnimationFrame(typeWriter);
+                            }, 2000);
+                            return;
+                        }
+                        
+                        lastUpdateTime = timestamp;
+                    } else if (isDeleting && letterIndex >= 0) {
+                        // Deleting
+                        currentText = fullName.substring(0, letterIndex);
+                        nameElement.textContent = currentText;
+                        letterIndex--;
+                        
+                        if (letterIndex < 0) {
+                            // Finished deleting, wait 1 second then start typing again
+                            isDeleting = false;
+                            letterIndex = 0;
+                            setTimeout(() => {
+                                lastUpdateTime = 0;
+                                animationId = requestAnimationFrame(typeWriter);
+                            }, 1000);
+                            return;
+                        }
+                        
+                        lastUpdateTime = timestamp;
+                    }
+                }
+                
+                animationId = requestAnimationFrame(typeWriter);
+            }
+            
+            // Start the typewriter effect
+            animationId = requestAnimationFrame(typeWriter);
+            
+            const musicTracks = [
+                'music/InThePocket.mp4',
+                'music/MorningGlow.mp4'
+            ];
+            
+            const audioElement = document.getElementById('backgroundMusic');
+            
+            // Set volume explicitly
+            audioElement.volume = 0.3;
+            
+            let currentTrackIndex = -1;
+            let hasInteracted = false;
+            
+            // Function to select and play a random track (different from current)
+            function playRandomTrack() {
+                let newTrackIndex;
+                
+                // If we only have one track or it's the first time, pick any
+                if (musicTracks.length === 1 || currentTrackIndex === -1) {
+                    newTrackIndex = Math.floor(Math.random() * musicTracks.length);
+                } else {
+                    // Pick a different track from the current one
+                    do {
+                        newTrackIndex = Math.floor(Math.random() * musicTracks.length);
+                    } while (newTrackIndex === currentTrackIndex);
+                }
+                
+                currentTrackIndex = newTrackIndex;
+                const trackName = musicTracks[currentTrackIndex];
+                audioElement.src = trackName;
+                
+                return audioElement.play().catch(function(error) {
+                    // Silently handle autoplay restrictions
+                    if (!hasInteracted) {
+                        console.log('Autoplay blocked, waiting for user interaction');
+                    }
+                });
+            }
+            
+            // When a song ends, play the next random track
+            audioElement.addEventListener('ended', function() {
+                playRandomTrack();
+            });
+            
+            // Try to play immediately
+            playRandomTrack();
+            
+            // Enhanced user interaction handling
+            function enableMusicOnInteraction() {
+                if (!hasInteracted && audioElement.paused) {
+                    hasInteracted = true;
+                    playRandomTrack();
+                }
+            }
+            
+            // Listen for various user interactions with passive listeners for better performance
+            ['click', 'touchstart', 'keydown'].forEach(event => {
+                document.addEventListener(event, enableMusicOnInteraction, { once: true, passive: true });
+            });
+            
+            // Scroll listener separate (can't be passive due to preventDefault possibility)
+            document.addEventListener('scroll', enableMusicOnInteraction, { once: true });
+
+            // Volume control functionality with optimized event listeners
+            const volumeSlider = document.getElementById('volumeSlider');
+            const volumeIcon = document.querySelector('.volume-icon');
+            const rewindButton = document.getElementById('rewindButton');
+            const skipButton = document.getElementById('skipButton');
+            
+            // Throttle volume updates for better performance
+            let volumeUpdateTimeout = null;
+            
+            // Update volume when slider changes
+            volumeSlider.addEventListener('input', function() {
+                if (volumeUpdateTimeout) {
+                    clearTimeout(volumeUpdateTimeout);
+                }
+                
+                volumeUpdateTimeout = setTimeout(() => {
+                    const volume = this.value / 100;
+                    audioElement.volume = volume;
+                    
+                    // Update volume icon based on level
+                    updateVolumeIcon(volume);
+                }, 10); // Small delay to batch rapid changes
+            }, { passive: true });
+            
+            // Rewind button - restart current song
+            rewindButton.addEventListener('click', function() {
+                if (audioElement.src) {
+                    audioElement.currentTime = 0;
+                    if (audioElement.paused) {
+                        audioElement.play().catch(() => {
+                            // Handle play restrictions
+                        });
+                    }
+                }
+            });
+            
+            // Skip button - play next random song
+            skipButton.addEventListener('click', function() {
+                playRandomTrack();
+            });
+            
+            // Toggle mute when volume icon is clicked
+            volumeIcon.addEventListener('click', function() {
+                if (audioElement.volume > 0) {
+                    // Mute
+                    audioElement.volume = 0;
+                    volumeSlider.value = 0;
+                    updateVolumeIcon(0);
+                } else {
+                    // Unmute to 30%
+                    audioElement.volume = 0.3;
+                    volumeSlider.value = 30;
+                    updateVolumeIcon(0.3);
+                }
+            });
+            
+            // Function to update volume icon based on volume level
+            function updateVolumeIcon(volume) {
+                const path = volumeIcon.querySelector('path');
+                if (volume === 0) {
+                    // Muted icon
+                    path.setAttribute('d', 'M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z');
+                } else if (volume < 0.5) {
+                    // Low volume icon
+                    path.setAttribute('d', 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z');
+                } else {
+                    // Full volume icon
+                    path.setAttribute('d', 'M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z');
+                }
+            }
+            
+            // Initialize volume icon
+            updateVolumeIcon(0.3);
+        });
+    </script>
+    
+</body>
+</html>
