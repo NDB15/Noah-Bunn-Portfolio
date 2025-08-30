@@ -314,19 +314,31 @@
 
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
+        /* Hide music functionality on phones */
+        .volume-control {
+            display: none !important;
+        }
+        
+        #music-prompt {
+            display: none !important;
+        }
+
         .content-area {
-            padding: 80px 20px 100px 20px;
+            padding: 60px 20px 60px 20px;
+            text-align: center;
         }
 
         h1 {
             font-size: 36px;
             margin-bottom: 30px;
+            text-align: center;
         }
 
         .back-button {
             font-size: 16px;
             padding: 10px 20px;
             margin-bottom: 30px;
+            display: inline-block;
         }
 
         .gallery-grid {
@@ -339,52 +351,35 @@
             height: 200px;
         }
 
-        /* Redesigned mobile volume control */
-        .volume-control {
+        .font-toggle-text {
+            font-size: 12px;
             position: fixed;
-            bottom: 10px;
+            top: 15px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(139, 115, 85, 0.25);
-            backdrop-filter: blur(3px);
-            padding: 6px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(139, 115, 85, 0.3);
-            max-width: 200px;
-            width: auto;
-            z-index: 1500;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .music-button {
-            width: 14px;
-            height: 14px;
-        }
-
-        .volume-slider {
-            width: 60px;
-        }
-
-        .volume-icon {
-            width: 16px;
-            height: 16px;
-        }
-
-        #music-prompt {
-            top: 15px !important;
-            right: 20px !important;
-            font-size: 12px !important;
-            z-index: 1700 !important;
+            right: auto;
+            text-align: center;
         }
     }
 
     @media (max-width: 480px) {
+        /* Keep music functionality hidden on smaller phones too */
+        .volume-control {
+            display: none !important;
+        }
+        
+        #music-prompt {
+            display: none !important;
+        }
+
         .content-area {
-            padding: 70px 15px 80px 15px;
+            padding: 50px 15px 50px 15px;
+            text-align: center;
         }
 
         h1 {
             font-size: 28px;
+            text-align: center;
         }
 
         .back-button {
@@ -397,34 +392,13 @@
             gap: 12px;
         }
 
-        .volume-control {
-            padding: 4px 8px;
-            max-width: 160px;
-            bottom: 8px;
-        }
-
-        .music-button {
-            width: 12px;
-            height: 12px;
-        }
-
-        .volume-slider {
-            width: 50px;
-        }
-
-        .volume-icon {
-            width: 14px;
-            height: 14px;
-        }
-
-        #music-prompt {
-            top: 12px !important;
-            right: 20px !important;
-            font-size: 11px !important;
-        }
-
         .gallery-item img {
             height: 250px;
+        }
+
+        .font-toggle-text {
+            font-size: 11px;
+            top: 12px;
         }
     }
 
@@ -527,7 +501,18 @@
     </div>
 
     <!-- Shared music system -->
-    <script src="js/shared-music.js"></script>
+    <script>
+        // Check if device is mobile (screen width <= 768px) and disable music
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile) {
+            // Only load music system on non-mobile devices
+            const script = document.createElement('script');
+            script.src = 'js/shared-music.js';
+            document.head.appendChild(script);
+        } else {
+            console.log('Mobile device detected - music functionality disabled');
+        }
+    </script>
     <script>
         // Function to update volume icon based on volume level
         function updateVolumeIcon(volume) {
