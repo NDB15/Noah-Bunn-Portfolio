@@ -2,36 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.    .logo-link {
-        position:fixed;
-        top: 20px;
-        left: 20px;
-        z-index: 1000;
-        text-decoration: none;
-    }'s Person    /* Social media icons at top with gifs */
-    .nav-icons {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        margin-bottom: 40px;
-        align-items: center;
-        width: 100%;
-        max-width: 800px;
-        margin-left: auto;
-        margin-right: auto;
-        position: relative;
-        background: rgba(230, 220, 200, 0.85);
-        border-radius: 25px;
-        padding: 20px 25px;
-        margin-top: -100px;
-    padding-top: 40px;
-        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        overflow: hidden;
-        will-change: transform;
-        backface-visibility: hidden;
-        transform: translateZ(0);
-        contain: layout style;
-    }<link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <style media="screen and (orientation: landscape)">
+        html { transform: rotate(90deg); }
+    </style>
+    <title>Noah Bunn - Portfolio</title>
+    <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
     <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
     <style>
         @font-face {
@@ -72,6 +53,47 @@
         position: relative;
         overflow-x: hidden;
         max-width: 100vw;
+        -webkit-text-size-adjust: 100%;
+        -ms-text-size-adjust: 100%;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Mobile-first approach - prevent landscape orientation issues */
+    @media screen and (orientation: landscape) and (max-height: 500px) {
+        .container {
+            height: 100vh;
+            overflow-y: auto;
+        }
+        
+        .content-area {
+            min-height: 100vh;
+        }
+    }
+
+    /* Prevent zoom on input focus */
+    input, select, textarea {
+        font-size: 16px !important;
+    }
+
+    /* Touch-friendly interactions */
+    * {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+    }
+
+    a, button, .clickable {
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        -khtml-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
     }
 
     /* Container for content - full height */
@@ -636,201 +658,242 @@
         background: rgba(139, 115, 85, 0.15);
     }
 
-    /* Mobile Responsiveness */
+    /* Mobile Responsiveness - Mobile First Approach */
     @media (max-width: 768px) {
+        html, body {
+            overflow-x: hidden;
+            position: relative;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
         .container {
             width: 100vw;
-            border-left: none;
-            border-right: none;
+            max-width: 100%;
+            border: none;
             position: relative;
             transform: none;
             left: 0;
             height: auto;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .video-background {
+            display: none; /* Hide videos on mobile for better performance */
         }
 
         .content-area {
-            padding: 80px 20px 100px 20px;
+            padding: 20px 15px 120px 15px;
+            background: linear-gradient(135deg, #f5f0e6 0%, #e8dcc0 100%);
+            min-height: 100vh;
+            box-sizing: border-box;
         }
 
         .main-content {
             flex-direction: column;
-            gap: 40px;
-            margin-bottom: 40px;
+            gap: 30px;
+            margin: 0;
+            width: 100%;
+            max-width: none;
         }
 
         .text-content {
             text-align: center;
-            padding-top: 0;
+            padding: 0;
+            width: 100%;
+            order: 2;
         }
 
         .text-content h1 {
-            font-size: 36px;
-            min-height: 44px;
-            margin-bottom: 15px;
-            margin-top: 20px;
+            font-size: 32px;
+            min-height: 40px;
+            margin: 20px 0 15px 0;
+            word-wrap: break-word;
+            line-height: 1.2;
         }
 
         .text-content h2 {
-            font-size: 20px;
-            margin-top: 20px;
-            margin-bottom: 15px;
+            font-size: 18px;
+            margin: 15px 0;
+            line-height: 1.3;
         }
 
         .text-content p {
-            font-size: 15px;
-            margin-bottom: 15px;
+            font-size: 14px;
+            margin-bottom: 12px;
+            line-height: 1.5;
+            padding: 0 10px;
         }
 
         .image-content {
             flex: none;
-            height: 400px;
+            height: 300px;
+            width: 100%;
+            order: 1;
+            margin-bottom: 20px;
         }
 
         .profile-image {
-            height: 300px;
+            height: 250px;
+            width: auto;
+            max-width: 90%;
         }
 
         .photo-collage {
-            top: -120px;
-            left: -30px;
-            width: 360px;
-            height: 200px;
-        }
-
-        .collage-photo {
-            width: 50px;
-            height: 50px;
+            display: none; /* Hide collage on mobile to reduce clutter */
         }
 
         .nav-icons {
             flex-direction: column;
-            gap: 15px;
-            padding: 15px 20px;
-            margin-top: 0;
-            position: relative;
+            gap: 10px;
+            padding: 15px;
+            margin: 20px 0;
+            background: rgba(139, 115, 85, 0.1);
+            border-radius: 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .nav-gifs-left, .nav-gifs-right {
-            gap: 15px;
+            gap: 10px;
             padding: 0;
+            justify-content: center;
         }
 
         .nav-gif {
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
         }
 
         .social-icons-center {
             gap: 15px;
             order: -1;
+            margin-bottom: 10px;
         }
 
         .social-icons-center img {
-            width: 20px;
-            height: 20px;
+            width: 24px;
+            height: 24px;
         }
 
         .menu-buttons {
-            margin-right: 0;
-            padding: 15px 20px;
-            padding-right: 20px;
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(245, 240, 230, 0.9);
+            border-radius: 15px;
+            width: 100%;
+            box-sizing: border-box;
         }
 
         .menu-button {
-            font-size: 24px;
-            margin-bottom: 10px;
+            font-size: 20px;
+            margin-bottom: 8px;
+            display: block;
+            text-align: center;
+            padding: 8px 0;
         }
 
         .font-toggle-text {
             font-size: 12px;
-            top: 15px;
-            right: 20px;
+            top: 10px;
+            right: 15px;
+            z-index: 1800;
         }
 
-        /* Redesigned mobile volume control */
+        /* Completely redesigned mobile volume control */
         .volume-control {
             position: fixed;
-            bottom: 10px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(139, 115, 85, 0.25);
-            backdrop-filter: blur(3px);
-            padding: 6px 12px;
-            border-radius: 20px;
+            background: rgba(139, 115, 85, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 8px 15px;
+            border-radius: 25px;
             border: 1px solid rgba(139, 115, 85, 0.3);
-            max-width: 200px;
             width: auto;
-            flex-wrap: nowrap;
-            z-index: 1500;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            max-width: 280px;
+            z-index: 1600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .music-button {
-            width: 14px;
-            height: 14px;
-            margin: 0 2px;
+        .music-button, .volume-icon {
+            width: 16px;
+            height: 16px;
+            margin: 0 3px;
+            flex-shrink: 0;
         }
 
         .volume-slider {
-            width: 60px;
-            margin: 0 4px;
-        }
-
-        .volume-icon {
-            width: 16px;
-            height: 16px;
+            width: 80px;
+            margin: 0 5px;
+            flex-shrink: 0;
         }
 
         .logo-link {
             left: 15px;
             top: 15px;
-            z-index: 1600;
+            z-index: 1700;
         }
 
         .logo-link img {
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
         }
 
         .egg-link {
-            bottom: 15px;
+            bottom: 20px;
             right: 15px;
-            z-index: 1600;
+            z-index: 1700;
         }
 
         .egg-link img {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
         }
 
         #music-prompt {
             top: 15px !important;
-            right: 70px !important;
-            font-size: 12px !important;
-            z-index: 1700 !important;
+            right: 80px !important;
+            font-size: 11px !important;
+            z-index: 1800 !important;
+            background: rgba(255, 0, 0, 0.1) !important;
+            padding: 4px 8px !important;
+            border-radius: 10px !important;
         }
     }
 
     @media (max-width: 480px) {
+        .content-area {
+            padding: 15px 10px 100px 10px;
+        }
+
         .text-content h1 {
-            font-size: 28px;
-            min-height: 36px;
-            margin-bottom: 20px;
+            font-size: 24px;
+            min-height: 30px;
+            margin: 15px 0 10px 0;
         }
 
         .text-content h2 {
-            font-size: 18px;
-            margin-top: 25px;
-            margin-bottom: 15px;
+            font-size: 16px;
+            margin: 10px 0;
         }
 
         .text-content p {
-            font-size: 14px;
+            font-size: 13px;
+            padding: 0 5px;
+            line-height: 1.4;
         }
 
         .menu-button {
-            font-size: 20px;
+            font-size: 18px;
+            margin-bottom: 6px;
+            padding: 6px 0;
         }
 
         .content-area {
