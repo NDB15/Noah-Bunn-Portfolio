@@ -2,15 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
-    <style media="screen and (orientation: landscape)">
-        html { transform: rotate(90deg); }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noah Bunn - Portfolio</title>
     <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
     <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
@@ -61,29 +53,6 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
-    }
-
-    /* Mobile-first approach - prevent landscape orientation issues */
-    @media screen and (orientation: landscape) and (max-height: 500px) {
-        .container {
-            height: 100vh;
-            overflow-y: auto;
-        }
-        
-        .content-area {
-            min-height: 100vh;
-        }
-    }
-
-    /* Prevent zoom on input focus */
-    input, select, textarea {
-        font-size: 16px !important;
-    }
-
-    /* Touch-friendly interactions */
-    * {
-        -webkit-tap-highlight-color: transparent;
-        -webkit-touch-callout: none;
     }
 
     a, button, .clickable {
@@ -656,6 +625,40 @@
 
     .volume-control:hover {
         background: rgba(139, 115, 85, 0.15);
+    }
+
+    /* Phone-only optimizations */
+    @media (max-width: 768px) {
+        /* Mobile meta tag behaviors */
+        html, body {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* Force portrait orientation on phones */
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            .container {
+                height: 100vh;
+                overflow-y: auto;
+            }
+            
+            .content-area {
+                min-height: 100vh;
+            }
+        }
+
+        /* Prevent zoom on input focus */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+
+        /* Touch-friendly interactions */
+        * {
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
     }
 
     /* Mobile Responsiveness - Mobile First Approach */

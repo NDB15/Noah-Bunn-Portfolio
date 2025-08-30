@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="format-detection" content="telephone=no">
-    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Noah Bunn - Gallery</title>
     <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
@@ -280,6 +275,41 @@
 
     .volume-control:hover {
         background: rgba(139, 115, 85, 0.15);
+    }
+
+    /* Phone-only optimizations */
+    @media (max-width: 768px) {
+        /* Mobile meta tag behaviors */
+        html, body {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        /* Force portrait orientation on phones */
+        @media screen and (orientation: landscape) and (max-height: 500px) {
+            html {
+                transform: rotate(90deg);
+                transform-origin: left top;
+                width: 100vh;
+                height: 100vw;
+                overflow-x: hidden;
+                position: absolute;
+                top: 100%;
+                left: 0;
+            }
+        }
+
+        /* Hide video backgrounds on mobile for performance */
+        .video-background {
+            display: none;
+        }
+
+        /* Adjust body background for mobile */
+        body {
+            background: #333;
+        }
     }
 
     /* Mobile Responsiveness */
