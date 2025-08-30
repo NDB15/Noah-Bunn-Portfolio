@@ -1129,6 +1129,34 @@
                         });
                     });
                 });
+                
+                // Photo hover sound effects - Pow1-6 cycling system
+                let currentPowSound = 1; // Start with Pow1
+                const powSounds = [];
+                
+                // Preload all Pow sounds
+                for (let i = 1; i <= 6; i++) {
+                    const sound = new Audio(`sounds/Pow${i}.ogg`);
+                    sound.volume = 0.18; // Slightly higher volume for photo interaction
+                    sound.preload = 'auto';
+                    powSounds.push(sound);
+                }
+                
+                // Add hover sound to photo collage images
+                const photoElements = document.querySelectorAll('.collage-photo');
+                photoElements.forEach(photo => {
+                    photo.addEventListener('mouseenter', function() {
+                        // Play current Pow sound
+                        const soundToPlay = powSounds[currentPowSound - 1];
+                        soundToPlay.currentTime = 0;
+                        soundToPlay.play().catch(error => {
+                            console.log('Photo hover audio play prevented:', error);
+                        });
+                        
+                        // Cycle to next sound (1-6, then back to 1)
+                        currentPowSound = currentPowSound === 6 ? 1 : currentPowSound + 1;
+                    });
+                });
             }
             
             // Skip music functionality on mobile devices
