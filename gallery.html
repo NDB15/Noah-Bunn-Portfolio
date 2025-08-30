@@ -555,7 +555,7 @@
             const isMobile = window.innerWidth <= 768;
             if (!isMobile) {
                 const rewindSound = new Audio('sounds/DJRewind.ogg');
-                rewindSound.volume = 0.2; // Set to 20% volume to not be too loud
+                rewindSound.volume = 0.25; // Increased volume - audible but softer than music
                 rewindSound.preload = 'auto';
                 
                 // Add hover sound to back button
@@ -584,7 +584,7 @@
                 // Preload all combo sounds
                 const comboAudioObjects = comboSounds.map(soundPath => {
                     const audio = new Audio(soundPath);
-                    audio.volume = 0.2; // Set to 20% volume
+                    audio.volume = 0.25; // Increased volume - audible but softer than music
                     audio.preload = 'auto';
                     return audio;
                 });

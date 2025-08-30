@@ -364,7 +364,7 @@
                 // Preload all combo sounds
                 const comboAudioObjects = comboSounds.map(soundPath => {
                     const audio = new Audio(soundPath);
-                    audio.volume = 0.2; // Set to 20% volume
+                    audio.volume = 0.25; // Increased volume - audible but softer than music
                     audio.preload = 'auto';
                     return audio;
                 });
