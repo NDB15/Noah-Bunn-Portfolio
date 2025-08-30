@@ -263,7 +263,7 @@
     /* Mobile Responsiveness */
     @media (max-width: 768px) {
         .content-area {
-            padding: 40px 20px;
+            padding: 80px 20px 100px 20px;
         }
 
         h1 {
@@ -315,35 +315,48 @@
             right: 20px;
         }
 
+        /* Redesigned mobile volume control */
         .volume-control {
-            bottom: 15px;
-            right: 15px;
-            padding: 8px;
-        }
-
-        .music-button {
-            width: 16px;
-            height: 16px;
-        }
-
-        .volume-slider {
-            width: 60px;
-        }
-
-        .volume-control {
-            max-width: 120px;
-            padding: 6px;
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(139, 115, 85, 0.25);
+            backdrop-filter: blur(3px);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(139, 115, 85, 0.3);
+            max-width: 200px;
+            width: auto;
+            z-index: 1500;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
         .music-button {
             width: 14px;
             height: 14px;
         }
+
+        .volume-slider {
+            width: 60px;
+        }
+
+        .volume-icon {
+            width: 16px;
+            height: 16px;
+        }
+
+        #music-prompt {
+            top: 15px !important;
+            right: 20px !important;
+            font-size: 12px !important;
+            z-index: 1700 !important;
+        }
     }
 
     @media (max-width: 480px) {
         .content-area {
-            padding: 30px 15px;
+            padding: 70px 15px 80px 15px;
         }
 
         h1 {
@@ -360,8 +373,9 @@
         }
 
         .volume-control {
-            max-width: 100px;
-            padding: 4px;
+            padding: 4px 8px;
+            max-width: 160px;
+            bottom: 8px;
         }
 
         .music-button {
@@ -370,7 +384,18 @@
         }
 
         .volume-slider {
-            width: 40px;
+            width: 50px;
+        }
+
+        .volume-icon {
+            width: 14px;
+            height: 14px;
+        }
+
+        #music-prompt {
+            top: 12px !important;
+            right: 20px !important;
+            font-size: 11px !important;
         }
 
         .project-card {
