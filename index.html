@@ -75,6 +75,7 @@
         height: 100vh;
         z-index: 1;
         overflow-y: auto;
+        overflow-x: visible; /* Allow brain images to show outside */
         border-left: 3px solid #8B7355;
         border-right: 3px solid #8B7355;
         will-change: transform;
@@ -280,14 +281,6 @@
         transform: rotate(8deg);
     }
 
-    .photo-profile {
-        width: 70px;
-        height: 70px;
-        top: 120px;
-        left: 320px;
-        transform: rotate(-10deg);
-    }
-
     .profile-image {
         width: 100%;
         height: 400px;
@@ -343,6 +336,33 @@
     .nav-container {
         position: relative;
         margin-bottom: 40px;
+        overflow: visible; /* Ensure brain images are visible */
+    }
+
+    .brain-left, .brain-right {
+        position: absolute;
+        width: 70px;
+        height: 70px;
+        top: 50%;
+        transform: translateY(-130%);
+        transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        will-change: transform;
+        backface-visibility: hidden;
+        z-index: 15;
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .brain-left {
+        left: -95px;
+    }
+
+    .brain-right {
+        right: -95px;
+    }
+
+    .brain-left:hover, .brain-right:hover {
+        transform: translateY(-50%) scale(1.1);
     }
 
     .font-toggle-text {
@@ -839,6 +859,10 @@
             text-align: center;
         }
 
+        .brain-left, .brain-right {
+            display: none; /* Hide brain images on mobile */
+        }
+
         .nav-gifs-left, .nav-gifs-right {
             gap: 10px;
             padding: 0;
@@ -1080,6 +1104,10 @@
                 <!-- Font toggle text positioned above the navigation box -->
                 <span id="font-toggle" class="font-toggle-text">having trouble reading?</span>
                 
+                <!-- Brain images positioned OUTSIDE the navigation box -->
+                <img src="img/BRCBrain.png" alt="Brain Left" class="brain-left">
+                <img src="img/BRCBrain.png" alt="Brain Right" class="brain-right">
+                
                 <!-- Navigation box -->
                 <nav class="nav-icons">
                     <!-- Left side gifs -->
@@ -1140,7 +1168,6 @@
                         <img src="img/Trombone.jpg" alt="Trombone Performance" class="collage-photo photo-trombone">
                         <img src="img/Winton.jpg" alt="Winton Performance" class="collage-photo photo-winton">
                         <img src="img/Cisco.jpg" alt="Cisco Certification" class="collage-photo photo-cisco">
-                        <img src="img/profile.jpg" alt="Profile" class="collage-photo photo-profile">
                     </div>
                     <img src="img/Sip.jpg" alt="Noah Bunn" class="profile-image">
                 </div>
