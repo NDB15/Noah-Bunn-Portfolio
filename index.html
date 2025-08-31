@@ -6,6 +6,11 @@
     <title>Noah Bunn - Portfolio</title>
     <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
     <link rel="icon" type="image/png" href="logos/Bunn Logo.png">
+    
+    <!-- TensorFlow.js for audio analysis -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/speech-commands@0.5.4/dist/speech-commands.min.js"></script>
+    
     <style>
         @font-face {
             font-family: 'Induction';
@@ -363,6 +368,22 @@
 
     .brain-left:hover, .brain-right:hover {
         transform: translateY(-50%) scale(1.1);
+    }
+
+    /* Brain pulse animation for music beat detection */
+    @keyframes brain-pulse {
+        0% { transform: translateY(-130%) scale(1); }
+        50% { transform: translateY(-130%) scale(1.3); }
+        100% { transform: translateY(-130%) scale(1); }
+    }
+
+    .brain-left.brain-pulse, .brain-right.brain-pulse {
+        animation: brain-pulse 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .brain-left.brain-pulse:hover, .brain-right.brain-pulse:hover {
+        animation: brain-pulse 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        transform: translateY(-130%) scale(1.3);
     }
 
     .font-toggle-text {
@@ -1465,6 +1486,341 @@
             
             // Initialize volume icon
             updateVolumeIcon(0.3);
+        });
+
+        // TensorFlow.js Audio Analysis for Brain Pulsing
+        class TensorFlowAudioAnalyzer {
+            constructor() {
+                this.audioContext = null;
+                this.analyzer = null;
+                this.audioSource = null;
+                this.isAnalyzing = false;
+                this.lastBeatTime = 0;
+                this.energyHistory = [];
+                this.threshold = 1.5; // Higher threshold for more selective detection
+                this.isAnimating = false;
+                
+                // Rhythm tracking for better musical timing
+                this.beatIntervals = []; // Track time between beats
+                this.estimatedBPM = 120; // Default BPM
+                this.expectedBeatInterval = 500; // 120 BPM = 500ms per beat
+                
+                console.log('🎵 TensorFlow Audio Analyzer initialized');
+            }
+
+            async init() {
+                try {
+                    // Wait for TensorFlow.js to load
+                    if (typeof tf === 'undefined') {
+                        console.log('🎵 Waiting for TensorFlow.js to load...');
+                        await new Promise(resolve => {
+                            const checkTf = () => {
+                                if (typeof tf !== 'undefined') {
+                                    resolve();
+                                } else {
+                                    setTimeout(checkTf, 100);
+                                }
+                            };
+                            checkTf();
+                        });
+                    }
+
+                    console.log('🎵 TensorFlow.js loaded, version:', tf.version.tfjs);
+                    
+                    // Get the audio element from the music system
+                    const audio = window.globalMusicSystem?.audio;
+                    if (!audio) {
+                        console.error('❌ Audio element not found in global music system');
+                        return;
+                    }
+
+                    // Create audio context
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    console.log('🎵 Audio context created for TensorFlow analysis');
+
+                    // Create audio source and analyzer
+                    this.audioSource = this.audioContext.createMediaElementSource(audio);
+                    this.analyzer = this.audioContext.createAnalyser();
+                    
+                    // Configure analyzer for better beat detection
+                    this.analyzer.fftSize = 4096; // Higher resolution for better frequency analysis
+                    this.analyzer.smoothingTimeConstant = 0.1; // Less smoothing for more responsive detection
+                    this.analyzer.minDecibels = -90;
+                    this.analyzer.maxDecibels = -10;
+                    
+                    // Connect audio graph
+                    this.audioSource.connect(this.analyzer);
+                    this.audioSource.connect(this.audioContext.destination);
+                    
+                    console.log('🎵 TensorFlow audio analysis setup complete');
+                    
+                    // Start analysis when music plays
+                    this.setupMusicListeners(audio);
+                    
+                } catch (error) {
+                    console.error('❌ TensorFlow audio analysis setup failed:', error);
+                }
+            }
+
+            setupMusicListeners(audio) {
+                console.log('🎵 Setting up music listeners for audio element:', audio);
+                
+                // Start analysis when music plays
+                audio.addEventListener('play', () => {
+                    console.log('🎵 Music play event detected');
+                    if (this.audioContext.state === 'suspended') {
+                        this.audioContext.resume().then(() => {
+                            console.log('🎵 Audio context resumed for TensorFlow analysis');
+                            this.startAnalysis();
+                        });
+                    } else {
+                        this.startAnalysis();
+                    }
+                });
+
+                // Stop analysis when music pauses
+                audio.addEventListener('pause', () => {
+                    console.log('🎵 Music pause event detected');
+                    this.stopAnalysis();
+                });
+
+                // Resume context on user interaction if needed
+                document.addEventListener('click', () => {
+                    if (this.audioContext && this.audioContext.state === 'suspended') {
+                        this.audioContext.resume().then(() => {
+                            console.log('🎵 Audio context resumed on user interaction');
+                        });
+                    }
+                }, { once: true });
+                
+                // Check if music is already playing
+                if (!audio.paused) {
+                    console.log('🎵 Music is already playing, starting analysis');
+                    this.startAnalysis();
+                }
+            }
+
+            startAnalysis() {
+                if (this.isAnalyzing) return;
+                
+                this.isAnalyzing = true;
+                console.log('🎵 Starting TensorFlow audio analysis for beat detection');
+                
+                this.analyzeFrame();
+            }
+
+            stopAnalysis() {
+                this.isAnalyzing = false;
+                console.log('🎵 Stopped TensorFlow audio analysis');
+            }
+
+            analyzeFrame() {
+                if (!this.isAnalyzing) return;
+
+                // Get frequency data
+                const bufferLength = this.analyzer.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                this.analyzer.getByteFrequencyData(dataArray);
+
+                // Calculate energy in specific frequency bands for better beat detection
+                const subBassEnergy = this.calculateBandEnergy(dataArray, 0, 2); // 0-86Hz (kick drum fundamentals)
+                const bassEnergy = this.calculateBandEnergy(dataArray, 2, 8); // 86-344Hz (kick drum body)
+                const lowMidEnergy = this.calculateBandEnergy(dataArray, 8, 16); // 344-688Hz (snare fundamentals)
+                
+                // Focus heavily on sub-bass and bass for kick drum detection
+                const kickEnergy = subBassEnergy * 3 + bassEnergy * 2;
+                const totalEnergy = kickEnergy + lowMidEnergy * 0.3;
+                
+                // Add to energy history for threshold calculation
+                this.energyHistory.push(totalEnergy);
+                if (this.energyHistory.length > 40) { // Longer history for better averaging
+                    this.energyHistory.shift();
+                }
+
+                // Enhanced beat detection with musical timing
+                if (this.energyHistory.length >= 20) {
+                    const currentTime = performance.now();
+                    
+                    // Calculate dynamic threshold with variance consideration
+                    const avgEnergy = this.energyHistory.reduce((a, b) => a + b, 0) / this.energyHistory.length;
+                    const variance = this.energyHistory.reduce((sum, val) => sum + Math.pow(val - avgEnergy, 2), 0) / this.energyHistory.length;
+                    const stdDev = Math.sqrt(variance);
+                    
+                    // More sophisticated threshold that considers energy variance
+                    const dynamicThreshold = avgEnergy + (stdDev * this.threshold);
+                    
+                    // Musical timing constraints for better downbeat detection
+                    const timeSinceLastBeat = currentTime - this.lastBeatTime;
+                    const minBeatInterval = 300; // Minimum 300ms between beats (200 BPM max)
+                    const maxBeatInterval = 1200; // Maximum 1200ms between beats (50 BPM min)
+                    
+                    // Check for beat with musical timing constraints
+                    if (totalEnergy > dynamicThreshold && 
+                        timeSinceLastBeat > minBeatInterval &&
+                        !this.isAnimating) {
+                        
+                        // Additional check: is this energy significantly higher than recent average?
+                        const recentAvg = this.energyHistory.slice(-5).reduce((a, b) => a + b, 0) / 5;
+                        const energyIncrease = totalEnergy / recentAvg;
+                        
+                        // Check if timing matches expected rhythm (more forgiving initially)
+                        const rhythmScore = this.beatIntervals.length < 3 ? 1.0 : this.calculateRhythmScore(timeSinceLastBeat);
+                        
+                        console.log('🎵 Beat check - Energy increase:', energyIncrease.toFixed(2), 
+                                  'Rhythm score:', rhythmScore.toFixed(2),
+                                  'Time since last:', Math.round(timeSinceLastBeat) + 'ms');
+                        
+                        if (energyIncrease > 1.2 && rhythmScore > 0.5) { // More forgiving thresholds
+                            this.triggerBrainPulse();
+                            this.updateBPMTracking(currentTime);
+                            
+                            console.log('🎵 Musical downbeat detected! Energy:', Math.round(totalEnergy), 
+                                      'Rhythm Score:', rhythmScore.toFixed(2),
+                                      'Est. BPM:', Math.round(this.estimatedBPM));
+                        }
+                    }
+                    
+                    // Fallback: if too much time has passed, check for any reasonable beat
+                    else if (timeSinceLastBeat > this.expectedBeatInterval * 1.5 && 
+                             totalEnergy > avgEnergy * 1.1) {
+                        this.triggerBrainPulse();
+                        this.updateBPMTracking(currentTime);
+                        console.log('🎵 Fallback rhythm beat detected');
+                    }
+                    
+                    // Emergency fallback: if way too much time has passed, just pulse on any energy spike
+                    else if (timeSinceLastBeat > 2000 && totalEnergy > avgEnergy) {
+                        this.triggerBrainPulse();
+                        this.updateBPMTracking(currentTime);
+                        console.log('🎵 Emergency beat detected after long silence');
+                    }
+                }
+
+                // Continue analysis
+                requestAnimationFrame(() => this.analyzeFrame());
+            }
+
+            updateBPMTracking(currentTime) {
+                if (this.lastBeatTime > 0) {
+                    const interval = currentTime - this.lastBeatTime;
+                    this.beatIntervals.push(interval);
+                    
+                    // Keep only recent intervals for BPM calculation
+                    if (this.beatIntervals.length > 8) {
+                        this.beatIntervals.shift();
+                    }
+                    
+                    // Calculate average BPM from recent intervals
+                    if (this.beatIntervals.length >= 4) {
+                        const avgInterval = this.beatIntervals.reduce((a, b) => a + b, 0) / this.beatIntervals.length;
+                        this.estimatedBPM = 60000 / avgInterval; // Convert ms to BPM
+                        this.expectedBeatInterval = avgInterval;
+                    }
+                }
+                
+                this.lastBeatTime = currentTime;
+            }
+
+            calculateRhythmScore(interval) {
+                // Score how well this interval matches expected rhythm
+                const expectedInterval = this.expectedBeatInterval;
+                const tolerance = expectedInterval * 0.2; // 20% tolerance
+                
+                // Check for exact beat, half-beat, or double-beat timing
+                const beatMultipliers = [1, 0.5, 2, 1.5, 0.75]; // Various musical subdivisions
+                
+                let bestScore = 0;
+                for (const multiplier of beatMultipliers) {
+                    const targetInterval = expectedInterval * multiplier;
+                    const difference = Math.abs(interval - targetInterval);
+                    const score = Math.max(0, 1 - (difference / tolerance));
+                    bestScore = Math.max(bestScore, score);
+                }
+                
+                return bestScore;
+            }
+
+            calculateBandEnergy(dataArray, startBin, endBin) {
+                let sum = 0;
+                for (let i = startBin; i <= endBin && i < dataArray.length; i++) {
+                    sum += dataArray[i] * dataArray[i];
+                }
+                return Math.sqrt(sum);
+            }
+
+            triggerBrainPulse() {
+                if (this.isAnimating) return;
+
+                this.isAnimating = true;
+                console.log('🧠 Triggering brain pulse from TensorFlow analysis');
+
+                const leftBrain = document.querySelector('.brain-left');
+                const rightBrain = document.querySelector('.brain-right');
+
+                if (leftBrain && rightBrain) {
+                    // Add pulse class
+                    leftBrain.classList.add('brain-pulse');
+                    rightBrain.classList.add('brain-pulse');
+                    
+                    // Remove pulse class after animation
+                    setTimeout(() => {
+                        leftBrain.classList.remove('brain-pulse');
+                        rightBrain.classList.remove('brain-pulse');
+                        this.isAnimating = false;
+                    }, 200); // Match CSS animation duration
+                } else {
+                    console.error('❌ Brain elements not found in DOM!');
+                    this.isAnimating = false;
+                }
+            }
+
+            // Method to adjust sensitivity
+            setSensitivity(value) {
+                this.threshold = value;
+                console.log('🎵 Beat detection sensitivity set to:', value);
+            }
+        }
+
+        // Initialize TensorFlow Audio Analyzer when page loads
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Wait a bit for the music system to initialize
+            setTimeout(async () => {
+                console.log('🎵 Initializing TensorFlow Audio Analyzer...');
+                
+                // Check if brain elements exist
+                const leftBrain = document.querySelector('.brain-left');
+                const rightBrain = document.querySelector('.brain-right');
+                console.log('🧠 Brain elements check - Left:', leftBrain ? 'FOUND' : 'NOT FOUND');
+                console.log('🧠 Brain elements check - Right:', rightBrain ? 'FOUND' : 'NOT FOUND');
+                
+                // Check if music system exists
+                console.log('🎵 Music system check:', window.globalMusicSystem ? 'FOUND' : 'NOT FOUND');
+                if (window.globalMusicSystem?.audio) {
+                    console.log('🎵 Audio element check:', window.globalMusicSystem.audio.src ? 'HAS SOURCE' : 'NO SOURCE');
+                }
+                
+                window.tensorFlowAudioAnalyzer = new TensorFlowAudioAnalyzer();
+                await window.tensorFlowAudioAnalyzer.init();
+                
+                // Make sensitivity adjustment available globally
+                window.setBeatSensitivity = (value) => {
+                    if (window.tensorFlowAudioAnalyzer) {
+                        window.tensorFlowAudioAnalyzer.setSensitivity(value);
+                    }
+                };
+                
+                // Add manual test function for brain pulsing
+                window.testBrainPulse = () => {
+                    if (window.tensorFlowAudioAnalyzer) {
+                        window.tensorFlowAudioAnalyzer.triggerBrainPulse();
+                        console.log('🧠 Manual brain pulse test triggered');
+                    }
+                };
+                
+                console.log('🎵 TensorFlow beat detection ready!');
+                console.log('🧠 Try: testBrainPulse() to test brain animation');
+                console.log('🎵 Try: setBeatSensitivity(0.7) for more sensitive detection');
+            }, 1000);
         });
     </script>
     
