@@ -3,11 +3,11 @@ if (!window.globalMusicSystem) {
     window.globalMusicSystem = {
         audio: new Audio(),
         tracks: [
-            { name: 'Feel The Funk', file: 'music/FeelTheFunk.mp4' },
-            { name: 'I Wanna Kno', file: 'music/IWannaKno.mp4' },
-            { name: 'In The Pocket', file: 'music/InThePocket.mp4' },
-            { name: 'Light Switch', file: 'music/LightSwitch.mp4' },
-            { name: 'Morning Glow', file: 'music/MorningGlow.mp4' }
+            { name: 'Feel The Funk', file: 'music/FeelTheFunk.mp3' },
+            { name: 'I Wanna Kno', file: 'music/IWannaKno.mp3' },
+            { name: 'In The Pocket', file: 'music/InThePocket.mp3' },
+            { name: 'Light Switch', file: 'music/LightSwitch.mp3' },
+            { name: 'Morning Glow', file: 'music/MorningGlow.mp3' }
         ],
         currentIndex: 0,
         hasInteracted: false,
