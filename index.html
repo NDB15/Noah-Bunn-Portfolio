@@ -393,7 +393,7 @@
         left: 50%;
         transform: translateX(-50%);
         width: 80px;
-        height: 20px;
+        height: 35px; /* Increased from 20px to 35px */
         z-index: 10;
         pointer-events: none;
     }
@@ -1837,15 +1837,15 @@
                     }
                     const average = sum / (endBin - startBin);
                     
-                    // Convert to height (1-20px range)
-                    const height = Math.max(1, Math.min(20, (average / 255) * 20));
+                    // Convert to height (1-35px range for taller waves)
+                    const height = Math.max(1, Math.min(35, (average / 255) * 35));
                     
                     // Update both wave bars
                     this.waveBars.left[i].style.height = height + 'px';
                     this.waveBars.right[i].style.height = height + 'px';
                     
                     // Add beat detection visual feedback
-                    if (height > 15) {
+                    if (height > 25) { // Adjusted threshold for taller bars
                         this.waveBars.left[i].classList.add('beat-detected');
                         this.waveBars.right[i].classList.add('beat-detected');
                     } else {
