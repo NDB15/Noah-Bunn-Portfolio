@@ -161,6 +161,82 @@
         opacity: 0.7;
     }
 
+    /* Skills Section Styling */
+    .skills-section {
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 40px;
+        box-shadow: 0 8px 24px rgba(139, 115, 85, 0.2);
+    }
+
+    .skills-section h2 {
+        color: #8B7355;
+        font-size: 32px;
+        margin-bottom: 25px;
+        text-align: center;
+        font-weight: 600;
+    }
+
+    .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+    }
+
+    .skill-item {
+        background: rgba(245, 240, 230, 0.8);
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 2px solid rgba(139, 115, 85, 0.1);
+    }
+
+    .skill-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 16px rgba(139, 115, 85, 0.2);
+    }
+
+    .skill-item h3 {
+        color: #8B7355;
+        font-size: 20px;
+        margin-bottom: 10px;
+        font-weight: 600;
+    }
+
+    .skill-level {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .skill-level.beginner {
+        background: linear-gradient(135deg, #FF8C00, #FF7700);
+        color: white;
+    }
+
+    .skill-level.intermediate {
+        background: linear-gradient(135deg, #8B7355, #6B5845);
+        color: white;
+    }
+
+    .skill-level.advanced {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+    }
+
+    .skill-experience {
+        color: #666;
+        font-size: 14px;
+        font-style: italic;
+    }
+
     /* Font toggle styling */
     .font-toggle-text {
         color: red;
@@ -425,6 +501,40 @@
             padding: 8px 16px;
         }
 
+        /* Skills section mobile styles */
+        .skills-section {
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .skills-section h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .skills-grid {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .skill-item {
+            padding: 15px;
+        }
+
+        .skill-item h3 {
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .skill-level {
+            font-size: 12px;
+            padding: 5px 10px;
+        }
+
+        .skill-experience {
+            font-size: 12px;
+        }
+
         .font-toggle-text {
             font-size: 12px;
             position: fixed;
@@ -554,6 +664,43 @@
             <span id="font-toggle" class="font-toggle-text">having trouble reading?</span>
             
             <h1>My Projects</h1>
+            
+            <!-- Skills Section -->
+            <div class="skills-section">
+                <h2>My Skills</h2>
+                <div class="skills-grid">
+                    <div class="skill-item">
+                        <h3>Java</h3>
+                        <div class="skill-level intermediate">Intermediate</div>
+                        <span class="skill-experience">2+ years</span>
+                    </div>
+                    <div class="skill-item">
+                        <h3>React</h3>
+                        <div class="skill-level beginner">Beginner</div>
+                        <span class="skill-experience">1- years</span>
+                    </div>
+                    <div class="skill-item">
+                        <h3>Python</h3>
+                        <div class="skill-level intermediate">Intermediate</div>
+                        <span class="skill-experience">3+ years</span>
+                    </div>
+                    <div class="skill-item">
+                        <h3>HTML/CSS</h3>
+                        <div class="skill-level intermediate">Intermediate</div>
+                        <span class="skill-experience">1 year</span>
+                    </div>
+                    <div class="skill-item">
+                        <h3>C++</h3>
+                        <div class="skill-level intermediate">Intermediate</div>
+                        <span class="skill-experience">1 year</span>
+                    </div>
+                    <div class="skill-item">
+                        <h3>C#</h3>
+                        <div class="skill-level intermediate">Intermediate</div>
+                        <span class="skill-experience">2 years</span>
+                    </div>
+                </div>
+            </div>
             
             <div class="projects-grid">
                 <div class="project-card">
