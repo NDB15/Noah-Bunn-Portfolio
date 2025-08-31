@@ -241,6 +241,7 @@
     .font-toggle-text {
         color: red;
         font-size: 14px;
+        font-family: Arial, sans-serif; /* Arial font for "having trouble reading?" */
         cursor: pointer;
         user-select: none;
         transition: opacity 0.3s ease;
@@ -253,9 +254,25 @@
         padding: 2px 8px;
         border-radius: 4px;
     }
+    
+    .font-toggle-text.go-back {
+        font-family: 'Induction', serif; /* Induction font for "go back" */
+    }
+
+    /* Pulsing animation for "having trouble reading?" */
+    @keyframes font-toggle-pulse {
+        0% { opacity: 0.5; }
+        50% { opacity: 1; }
+        100% { opacity: 0.5; }
+    }
+    
+    .font-toggle-text:not(.go-back) {
+        animation: font-toggle-pulse 1s ease-in-out infinite;
+    }
 
     .font-toggle-text:hover {
         opacity: 0.7;
+        animation: none; /* Stop pulsing on hover */
     }
 
     /* Volume control styling */
@@ -627,7 +644,7 @@
             <a href="index.html" class="back-button">← Back to Home</a>
             
             <!-- Font toggle positioned in upper right area -->
-            <span id="font-toggle" class="font-toggle-text">having trouble reading?</span>
+            <span id="font-toggle" class="font-toggle-text">Having trouble reading?</span>
             
             <h1>My Projects</h1>
             
@@ -743,11 +760,13 @@
                     // Switch to Arial and change text
                     document.body.style.fontFamily = 'Arial, sans-serif';
                     fontToggle.textContent = 'go back';
+                    fontToggle.classList.add('go-back'); // Add class for Induction font
                     isArial = true;
                 } else {
                     // Switch back to Induction and change text
                     document.body.style.fontFamily = "'Induction', 'Crimson Text', serif";
-                    fontToggle.textContent = 'having trouble reading?';
+                    fontToggle.textContent = 'Having trouble reading?';
+                    fontToggle.classList.remove('go-back'); // Remove class to use Arial font
                     isArial = false;
                 }
             });
