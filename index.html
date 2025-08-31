@@ -557,26 +557,70 @@
         z-index: 1000;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 5px; /* Reduced gap slightly for the extra button */
         background: rgba(139, 115, 85, 0.1);
-        padding: 8px 15px;
-        border-radius: 25px;
+        padding: 6px 12px;
+        border-radius: 20px;
         border: 2px solid #8B7355;
         backdrop-filter: blur(5px);
+        max-width: 320px; /* Increased slightly for play/pause button */
+        flex-wrap: nowrap; /* Prevent wrapping */
     }
 
     .music-button {
-        width: 18px;
-        height: 18px;
+        width: 24px; /* Increased from 18px */
+        height: 24px; /* Increased from 18px */
         fill: #8B7355;
         cursor: pointer;
         transition: transform 0.2s ease, fill 0.2s ease;
         padding: 2px;
+        flex-shrink: 0; /* Prevent shrinking */
     }
 
     .music-button:hover {
         transform: scale(1.1);
         fill: #6B5845;
+    }
+
+    /* Song selector dropdown styling */
+    .volume-control .song-selector-container {
+        margin-left: 6px !important;
+        position: relative !important;
+        display: inline-block !important;
+        flex-shrink: 0 !important; /* Prevent shrinking */
+    }
+
+    .volume-control .song-selector,
+    .volume-control select.song-selector,
+    select#songSelector {
+        background: rgba(255, 200, 0, 0.9) !important;
+        color: #333 !important;
+        border: 1px solid #ffa500 !important;
+        border-radius: 4px !important;
+        padding: 3px 6px !important;
+        font-size: 11px !important;
+        font-family: 'Induction', 'Crimson Text', serif !important;
+        cursor: pointer !important;
+        min-width: 100px !important;
+        max-width: 120px !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        height: 22px !important;
+        line-height: 16px !important;
+        appearance: menulist !important;
+        -webkit-appearance: menulist !important;
+        -moz-appearance: menulist !important;
+    }
+
+    .volume-control .song-selector option,
+    .volume-control select.song-selector option,
+    select#songSelector option {
+        background: #fff !important;
+        color: #333 !important;
+        padding: 2px 4px !important;
+        font-size: 11px !important;
+        font-family: 'Induction', 'Crimson Text', serif !important;
     }
 
     .volume-icon {
@@ -593,7 +637,7 @@
     }
 
     .volume-slider {
-        width: 80px;
+        width: 70px; /* Reduced from 80px */
         height: 4px;
         background: rgba(139, 115, 85, 0.3);
         border-radius: 2px;
@@ -601,6 +645,7 @@
         cursor: pointer;
         -webkit-appearance: none;
         appearance: none;
+        flex-shrink: 0; /* Prevent shrinking */
     }
 
     .volume-slider::-webkit-slider-thumb {
@@ -999,6 +1044,11 @@
             <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
         </svg>
         
+        <!-- Play/Pause button -->
+        <svg class="music-button" id="playPauseButton" viewBox="0 0 24 24" title="Play/Pause">
+            <path id="playPauseIcon" d="M8 5v14l11-7z"/>
+        </svg>
+        
         <!-- Volume icon -->
         <svg class="volume-icon" viewBox="0 0 24 24" title="Toggle mute">
             <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>
@@ -1086,6 +1136,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Load the music system FIRST -->
+    <script src="js/shared-music.js"></script>
     
     <script>
         // Check if device is mobile (screen width <= 768px)
@@ -1093,6 +1146,16 @@
         
         // Random background music functionality - Auto-play (disabled on mobile)
         document.addEventListener('DOMContentLoaded', function() {
+            // Give shared music system priority - slight delay to ensure it initializes first
+            if (!isMobile) {
+                setTimeout(() => {
+                    // Ensure music system is properly initialized
+                    if (window.globalMusicSystem && !window.globalMusicSystem.audio.src) {
+                        console.log('Re-initializing music system...');
+                        const player = new SharedMusicPlayer();
+                    }
+                }, 200);
+            }
             // Font toggle functionality
             const fontToggle = document.getElementById('font-toggle');
             let isArial = false;
@@ -1308,11 +1371,13 @@
             // Start the typewriter effect
             animationId = requestAnimationFrame(typeWriter);
             
+            /* OLD MUSIC SYSTEM - COMMENTED OUT - NOW USING shared-music.js
             const musicTracks = [
                 'music/InThePocket.mp4',
                 'music/MorningGlow.mp4'
             ];
             
+            /* OLD MUSIC SYSTEM - COMPLETELY COMMENTED OUT
             const audioElement = document.getElementById('backgroundMusic');
             
             // Set volume explicitly
@@ -1320,40 +1385,6 @@
             
             let currentTrackIndex = -1;
             let hasInteracted = false;
-            
-            // Function to select and play a random track (different from current)
-            function playRandomTrack() {
-                let newTrackIndex;
-                
-                // If we only have one track or it's the first time, pick any
-                if (musicTracks.length === 1 || currentTrackIndex === -1) {
-                    newTrackIndex = Math.floor(Math.random() * musicTracks.length);
-                } else {
-                    // Pick a different track from the current one
-                    do {
-                        newTrackIndex = Math.floor(Math.random() * musicTracks.length);
-                    } while (newTrackIndex === currentTrackIndex);
-                }
-                
-                currentTrackIndex = newTrackIndex;
-                const trackName = musicTracks[currentTrackIndex];
-                audioElement.src = trackName;
-                
-                return audioElement.play().catch(function(error) {
-                    // Silently handle autoplay restrictions
-                    if (!hasInteracted) {
-                        console.log('Autoplay blocked, waiting for user interaction');
-                    }
-                });
-            }
-            
-            // When a song ends, play the next random track
-            audioElement.addEventListener('ended', function() {
-                playRandomTrack();
-            });
-            
-            // Try to play immediately
-            playRandomTrack();
             
             // Enhanced user interaction handling
             function enableMusicOnInteraction() {
@@ -1370,64 +1401,13 @@
             
             // Scroll listener separate (can't be passive due to preventDefault possibility)
             document.addEventListener('scroll', enableMusicOnInteraction, { once: true });
+            END OLD MUSIC SYSTEM */
 
-            // Volume control functionality with optimized event listeners
-            const volumeSlider = document.getElementById('volumeSlider');
+            // Volume control functionality is now handled by shared-music.js
+            // No need for duplicate event listeners here
+            
+            // Initialize volume icon display
             const volumeIcon = document.querySelector('.volume-icon');
-            const rewindButton = document.getElementById('rewindButton');
-            const skipButton = document.getElementById('skipButton');
-            
-            // Throttle volume updates for better performance
-            let volumeUpdateTimeout = null;
-            
-            // Update volume when slider changes
-            volumeSlider.addEventListener('input', function() {
-                if (volumeUpdateTimeout) {
-                    clearTimeout(volumeUpdateTimeout);
-                }
-                
-                volumeUpdateTimeout = setTimeout(() => {
-                    const volume = this.value / 100;
-                    audioElement.volume = volume;
-                    
-                    // Update volume icon based on level
-                    updateVolumeIcon(volume);
-                }, 10); // Small delay to batch rapid changes
-            }, { passive: true });
-            
-            // Rewind button - restart current song
-            rewindButton.addEventListener('click', function() {
-                if (audioElement.src) {
-                    audioElement.currentTime = 0;
-                    if (audioElement.paused) {
-                        audioElement.play().catch(() => {
-                            // Handle play restrictions
-                        });
-                    }
-                }
-            });
-            
-            // Skip button - play next random song
-            skipButton.addEventListener('click', function() {
-                playRandomTrack();
-            });
-            
-            // Toggle mute when volume icon is clicked
-            volumeIcon.addEventListener('click', function() {
-                if (audioElement.volume > 0) {
-                    // Mute
-                    audioElement.volume = 0;
-                    volumeSlider.value = 0;
-                    updateVolumeIcon(0);
-                } else {
-                    // Unmute to 30%
-                    audioElement.volume = 0.3;
-                    volumeSlider.value = 30;
-                    updateVolumeIcon(0.3);
-                }
-            });
-            
-            // Function to update volume icon based on volume level
             function updateVolumeIcon(volume) {
                 const path = volumeIcon.querySelector('path');
                 if (volume === 0) {
@@ -1442,31 +1422,11 @@
                 }
             }
             
+            // Make updateVolumeIcon available globally for shared-music.js
+            window.updateVolumeIcon = updateVolumeIcon;
+            
             // Initialize volume icon
             updateVolumeIcon(0.3);
-            
-            // Music prompt click handler
-            const musicPrompt = document.getElementById('music-prompt');
-            if (musicPrompt) {
-                musicPrompt.addEventListener('click', function() {
-                    // Hide the prompt
-                    musicPrompt.style.display = 'none';
-                    
-                    // Try to start music if it exists
-                    if (window.globalAudio) {
-                        window.globalAudio.play().catch(() => {
-                            // Handle any play restrictions
-                        });
-                    }
-                });
-                
-                // Also hide prompt on any click anywhere
-                document.addEventListener('click', function() {
-                    if (musicPrompt) {
-                        musicPrompt.style.display = 'none';
-                    }
-                }, { once: true });
-            }
         });
     </script>
     

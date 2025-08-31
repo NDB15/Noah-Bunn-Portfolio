@@ -337,8 +337,8 @@
             if (musicPrompt) {
                 musicPrompt.addEventListener('click', function() {
                     musicPrompt.style.display = 'none';
-                    if (window.globalAudio) {
-                        window.globalAudio.play().catch(() => {});
+                    if (window.globalMusicSystem && window.globalMusicSystem.audio) {
+                        window.globalMusicSystem.audio.play().catch(() => {});
                     }
                 });
                 
