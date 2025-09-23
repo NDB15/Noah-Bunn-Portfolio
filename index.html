@@ -25,6 +25,7 @@
         margin: 0;
         padding: 0;
         box-sizing: border-box;
+        /* No cursor CSS - JavaScript handles all cursor states */
     }
 
     html {
@@ -1142,7 +1143,7 @@
 <body>
     
     <!-- Music prompt -->
-    <div id="music-prompt" style="position: fixed; top: 20px; right: 20px; color: red; font-size: 14px; z-index: 2000; font-family: Arial, sans-serif; cursor: pointer; user-select: none; animation: pulse 2s ease-in-out infinite;">psst... click the screen</div>
+    <div id="music-prompt" style="position: fixed; top: 20px; right: 20px; color: red; font-size: 14px; z-index: 2000; font-family: Arial, sans-serif; user-select: none; animation: pulse 2s ease-in-out infinite;">psst... click the screen</div>
     
     <!-- Mirrored video background -->
     <div class="video-background">
@@ -2029,6 +2030,45 @@
                 console.log('🎵 TensorFlow beat detection ready!');
                 console.log('🧠 Try: testBrainPulse() to test brain animation');
                 console.log('🎵 Try: setBeatSensitivity(0.7) for more sensitive detection');
+
+                // Simple Wii cursor behavior with JavaScript
+                function setupWiiCursors() {
+                    const wiiDefault = 'url("./cursor/Wii%20Cursor.cur"), url("cursor/Wii%20Cursor.cur"), auto';
+                    const wiiOpen = 'url("./cursor/wii-open-ccw.cur"), url("cursor/wii-open-ccw.cur"), auto';
+                    const wiiGrab = 'url("./cursor/wii-grab-ccw.cur"), url("cursor/wii-grab-ccw.cur"), auto';
+
+                    // Set default cursor on body
+                    document.body.style.cursor = wiiDefault;
+                    document.documentElement.style.cursor = wiiDefault;
+
+                    // Add hover listeners to all elements
+                    document.addEventListener('mouseover', function(e) {
+                        e.target.style.cursor = wiiOpen;
+                    });
+
+                    // Add mouse leave listeners to restore default
+                    document.addEventListener('mouseout', function(e) {
+                        e.target.style.cursor = wiiDefault;
+                    });
+
+                    // Add click listeners for grab cursor
+                    document.addEventListener('mousedown', function(e) {
+                        e.target.style.cursor = wiiGrab;
+                        document.body.style.cursor = wiiGrab;
+                    });
+
+                    // Restore on mouse up
+                    document.addEventListener('mouseup', function(e) {
+                        e.target.style.cursor = wiiDefault;
+                        document.body.style.cursor = wiiDefault;
+                    });
+
+                    console.log('🎮 Simple Wii cursor JavaScript controls activated!');
+                }
+
+                // Initialize cursor controls
+                setupWiiCursors();
+
             }, 1000);
         });
     </script>
