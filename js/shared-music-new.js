@@ -3,6 +3,7 @@ if (!window.globalMusicSystem) {
     window.globalMusicSystem = {
         audio: new Audio(),
         tracks: [
+            { name: '4Ever', file: 'music/LILMo (4Ever) DSparkz LiteFeet Remix.mp3' },
             { name: 'Feel The Funk', file: 'music/FeelTheFunk.mp4' },
             { name: 'I Wanna Kno', file: 'music/IWannaKno.mp4' },
             { name: 'In The Pocket', file: 'music/InThePocket.mp4' },
